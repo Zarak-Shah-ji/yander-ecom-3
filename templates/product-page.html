@@ -1,0 +1,490 @@
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block content %}
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb__links">
+          <a href="{% url 'core:home' %}"><i class="fa fa-home"></i> Home</a>
+
+          <a href="#"> <span>{{ object.get_category_display }}</span></a>
+          <span> {{ item.title }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Product Details Section Begin -->
+<section class="product-details spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="product__details__pic">
+          <!-- <div class="product__details__pic__left product__thumb nice-scroll">
+            <a class="pt active" href="#product-1">
+              <img src="img/product/details/thumb-1.jpg" alt="" />
+            </a>
+            <a class="pt" href="#product-2">
+              <img src="img/product/details/thumb-2.jpg" alt="" />
+            </a>
+            <a class="pt" href="#product-3">
+              <img src="img/product/details/thumb-3.jpg" alt="" />
+            </a>
+            <a class="pt" href="#product-4">
+              <img src="img/product/details/thumb-4.jpg" alt="" />
+            </a>
+          </div> -->
+          <div class="product__details__slider__content">
+            <div class="">
+              <img
+                data-hash="product-1"
+                class="product__big__img"
+                src="{{ item.image.url }}"
+                alt=""
+              />
+              <!-- <img
+                data-hash="product-2"
+                class="product__big__img"
+                src="img/product/details/product-3.jpg"
+                alt=""
+              /> -->
+              <!-- <img
+                data-hash="product-3"
+                class="product__big__img"
+                src="img/product/details/product-2.jpg"
+                alt=""
+              /> -->
+              <!-- <img
+                data-hash="product-4"
+                class="product__big__img"
+                src="img/product/details/product-4.jpg"
+                alt=""
+              /> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="product__details__text">
+          <h3>
+            {{ item.title }}
+            <span>Brand: Yander Co.</span>
+          </h3>
+          <div class="rating">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <!-- <span>( 138 reviews )</span> -->
+          </div>
+          {% if object.discount_price %}
+          <div class="product__details__price">
+            &#x20B9;{{ object.discount_price }}
+            <span>&#x20B9;{{ object.price }}</span>
+          </div>
+          {% else %}
+          <div class="product__details__price">&#x20B9;{{ object.price }}</div>
+          {% endif %}
+          <p>{{ object.description }}</p>
+          <div class="product__details__button">
+            <a href="{{object.get_add_to_cart_url }}" class="cart-btn"
+              ><span class="icon_bag_alt"></span> Add to cart</a
+            >
+            <ul>
+              <li>
+                <a href="#"><span class="icon_heart_alt"></span></a>
+              </li>
+            </ul>
+          </div>
+          <div class="product__details__widget">
+            <ul>
+              <li>
+                <span>Category:</span>
+                <p>{{ object.get_category_display }}</p>
+              </li>
+
+              <li>
+                <span>Availability:</span>
+                <p>In Stock</p>
+              </li>
+              <li>
+                <span>Available Color:</span>
+                <p>As Depicted</p>
+              </li>
+              <li>
+                <span>Available Size:</span>
+                <p>OneSize</p>
+              </li>
+              <li>
+                <span>Promotions:</span>
+                <p>Free shipping</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="product__details__tab">
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                data-toggle="tab"
+                href="#tabs-1"
+                role="tab"
+                >Description</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                >Reviews</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
+                >Write a review</a
+              >
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+              <h6>Description</h6>
+              <p>{{ object.description }}</p>
+            </div>
+            <!-----------------------------review display start--------------------------------->
+
+            <div class="tab-pane" id="tabs-2" role="tabpanel">
+              {% for rs in reviews %}
+              <!-----------------------------card start--------------------------------->
+
+              <div class="card">
+                <div class="card-header">
+                  <h6 class="m-0" style="display: inline;"><i class="fa fa-user-o"></i> {{rs.user.username }}</h6>
+                  <h6 class="m-0 float-right" style="display: inline;"><i class="fa fa-clock-o"></i> {{rs.create_at }}</h6>
+             
+                </div>
+                <div class="card-body">
+                  <h6 class="card-title mb-2"> {{ rs.subject }}
+                    <div class="review-rating pull-right">
+                      <i class="{% if rs.rate < 1 %}fa fa-star-o{% else %}fa fa-star{% endif %}"
+                        ></i
+                      >
+                      <i class="{% if rs.rate < 2 %}fa fa-star-o{% else %}fa fa-star{% endif %}"
+                        ></i
+                      >
+                      <i class="{% if rs.rate < 3 %}fa fa-star-o{% else %}fa fa-star{% endif %}"
+                        ></i
+                      >
+                      <i class="{% if rs.rate < 4 %}fa fa-star-o{% else %}fa fa-star{% endif %}"
+                        ></i
+                      >
+                      <i class="{% if rs.rate < 5 %}fa fa-star-o{% else %}fa fa-star{% endif %}"
+                        ></i
+                      >
+                    </div></h6>
+                  <p class="card-text">{{ rs.comment }}</p>
+                  
+                </div>
+              </div>
+              <!-----------------------------card end--------------------------------->
+
+              <!-- <div class="row">
+                <div class="col-md-6">
+                  <div class="product-reviews">
+                    <div>
+                      <i class="fa fa-user-o"></i> {{rs.user.username }}
+                    </div>
+                    <br />
+                    <div>
+                    {{ rs.subject }}
+                    </div>
+                    <div>
+                      <i class="fa fa-clock-o"></i> {{rs.create_at }}
+                    </div>
+
+                    <div class="review-rating pull-right">
+                      <i class="fa fa-star"
+                        >{% if rs.rate < 5 %}-o empty{% endif %}</i
+                      >
+                      <i class="fa fa-star"
+                        >{% if rs.rate < 4 %}-o empty{% endif %}</i
+                      >
+                      <i class="fa fa-star"
+                        >{% if rs.rate < 3 %}-o empty{% endif %}</i
+                      >
+                      <i class="fa fa-star"
+                        >{% if rs.rate < 2 %}-o empty{% endif %}</i
+                      >
+                      <i class="fa fa-star"
+                        >{% if rs.rate < 1 %}-o empty{% endif %}</i
+                      >
+                    </div>
+                    <div>
+                      <p>{{ rs.comment }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              <br>
+              {% endfor %}
+            </div>
+
+            <!--------------------------review display end------------------------->
+
+            <!------------------------------write your review starts--------------------------------------------->
+
+            <div class="tab-pane" id="tabs-3" role="tabpanel">
+              <h4 class="text-uppercase text-center">Write Your Review</h4>
+              <br />
+
+              <form
+                method="post"
+                class="review-form card-body checkout__form"
+                action="/addcomment/{{  item.id }}"
+              >
+                {% csrf_token %}
+
+                <div class="form-group">
+                  <div class="rating">
+                    <h6 style="display: inline" class="">Your Rating:</h6>
+                    <span
+                      ><input
+                        type="radio"
+                        id="star5"
+                        name="rate"
+                        value="5" /><label for="star5"
+                        ><i class="fa fa-star"></i></label
+                    ></span>
+                    <span>
+                      <input
+                        type="radio"
+                        id="star4"
+                        name="rate"
+                        value="4" /><label for="star4"
+                        ><i class="fa fa-star"></i></label
+                    ></span>
+                    <span>
+                      <input
+                        type="radio"
+                        id="star3"
+                        name="rate"
+                        value="3" /><label for="star3"
+                        ><i class="fa fa-star"></i></label
+                    ></span>
+                    <span>
+                      <input
+                        type="radio"
+                        id="star2"
+                        name="rate"
+                        value="2" /><label for="star2"
+                        ><i class="fa fa-star"></i></label
+                    ></span>
+                    <span>
+                      <input
+                        type="radio"
+                        id="star1"
+                        name="rate"
+                        value="1"
+                      /><label for="star1"><i class="fa fa-star"></i></label>
+                    </span>
+                  </div>
+                  <br />
+                  <br />
+                </div>
+
+                <div class="form-group checkout__form__input">
+                  <input
+                    name="subject"
+                    class="input"
+                    type="text"
+                    placeholder="Your subject"
+                  />
+                </div>
+
+                <div class="form-group checkout__form__input">
+                  <input
+                    name="comment"
+                    class="input"
+                    placeholder="Your review"
+                  ></input>
+                </div>
+
+            
+                {% if request.user.is_authenticated %}
+                <button class="btn btn-secondary btn-md waves-effect site-btn" type="submit">Submit</button>
+                {% else %} You must be logged in to post a review {% endif %}
+              </form>
+            </div>
+            <!-----------------------------write your review ends----------------------------------------->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="row">
+      <div class="col-lg-12 text-center">
+        <div class="related__title">
+          <h5>RELATED PRODUCTS</h5>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="product__item">
+          <div
+            class="product__item__pic set-bg"
+            data-setbg="img/product/related/rp-1.jpg"
+          >
+            <div class="label new">New</div>
+            <ul class="product__hover">
+              <li>
+                <a href="img/product/related/rp-1.jpg" class="image-popup"
+                  ><span class="arrow_expand"></span
+                ></a>
+              </li>
+              <li>
+                <a href="#"><span class="icon_heart_alt"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="icon_bag_alt"></span></a>
+              </li>
+            </ul>
+          </div>
+          <div class="product__item__text">
+            <h6><a href="#">Buttons tweed blazer</a></h6>
+            <div class="rating">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+            </div>
+            <div class="product__price">$ 59.0</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="product__item">
+          <div
+            class="product__item__pic set-bg"
+            data-setbg="img/product/related/rp-2.jpg"
+          >
+            <ul class="product__hover">
+              <li>
+                <a href="img/product/related/rp-2.jpg" class="image-popup"
+                  ><span class="arrow_expand"></span
+                ></a>
+              </li>
+              <li>
+                <a href="#"><span class="icon_heart_alt"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="icon_bag_alt"></span></a>
+              </li>
+            </ul>
+          </div>
+          <div class="product__item__text">
+            <h6><a href="#">Flowy striped skirt</a></h6>
+            <div class="rating">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+            </div>
+            <div class="product__price">$ 49.0</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="product__item">
+          <div
+            class="product__item__pic set-bg"
+            data-setbg="img/product/related/rp-3.jpg"
+          >
+            <div class="label stockout">out of stock</div>
+            <ul class="product__hover">
+              <li>
+                <a href="img/product/related/rp-3.jpg" class="image-popup"
+                  ><span class="arrow_expand"></span
+                ></a>
+              </li>
+              <li>
+                <a href="#"><span class="icon_heart_alt"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="icon_bag_alt"></span></a>
+              </li>
+            </ul>
+          </div>
+          <div class="product__item__text">
+            <h6><a href="#">Cotton T-Shirt</a></h6>
+            <div class="rating">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+            </div>
+            <div class="product__price">$ 59.0</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="product__item">
+          <div
+            class="product__item__pic set-bg"
+            data-setbg="img/product/related/rp-4.jpg"
+          >
+            <ul class="product__hover">
+              <li>
+                <a href="img/product/related/rp-4.jpg" class="image-popup"
+                  ><span class="arrow_expand"></span
+                ></a>
+              </li>
+              <li>
+                <a href="#"><span class="icon_heart_alt"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="icon_bag_alt"></span></a>
+              </li>
+            </ul>
+          </div>
+          <div class="product__item__text">
+            <h6><a href="#">Slim striped pocket shirt</a></h6>
+            <div class="rating">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+            </div>
+            <div class="product__price">$ 59.0</div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</section>
+<!-- Product Details Section End -->
+
+{% endblock %} {% block extra_scripts %}
+<script>
+  $(document).ready(function () {
+    // Check Radio-box
+    $(".rating input:radio").attr("checked", false);
+
+    $(".rating input").click(function () {
+      $(".rating span").removeClass("checked");
+      $(this).parent().addClass("checked");
+    });
+
+    $("input:radio").change(function () {
+      var userRating = this.value;
+      // alert(userRating);
+    });
+  });
+</script>
+
+{% endblock extra_scripts %}
