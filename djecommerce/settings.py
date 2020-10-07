@@ -1,7 +1,7 @@
 import os
 from decouple import config
 
-#import django_heroku
+import django_heroku
 
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
