@@ -5,12 +5,13 @@ import django_heroku
 
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
-DEBUG = False
+DEBUG = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
 ALLOWED_HOSTS = ['127.0.0.1','localhost','yander-3.herokuapp.com','yander.herokuapp.com']
 #SECRET_KEY = config('SECRET_KEY')
-SECRET_KEY=os.environ.get('SECRET_KEY')
+#SECRET_KEY=os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj')
 INSTALLED_APPS = [
     'crispy_forms',
     'django_countries',
