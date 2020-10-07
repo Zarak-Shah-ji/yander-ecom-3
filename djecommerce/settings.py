@@ -7,8 +7,8 @@ ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
 DEBUG = False
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-#SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
-ALLOWED_HOSTS = ['127.0.0.1','localhost','yander.herokuapp.com']
+SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
+ALLOWED_HOSTS = ['127.0.0.1','localhost','yander-3.herokuapp.com','yander.herokuapp.com']
 SECRET_KEY = config('SECRET_KEY')
 
 INSTALLED_APPS = [
