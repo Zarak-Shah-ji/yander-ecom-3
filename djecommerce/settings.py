@@ -5,9 +5,9 @@ import django_heroku
 
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
-DEBUG = True
+DEBUG = False
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
+#SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
 ALLOWED_HOSTS = ['127.0.0.1','localhost','yander.herokuapp.com']
 SECRET_KEY = config('SECRET_KEY')
 
@@ -114,14 +114,14 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 #Stripe Settings
 
-#if DEBUG:
+if DEBUG:
     #test keys
-  #  STRIPE_PUBLISHABLE_KEY = 'pk_test_51HCND6DvfKocuQ5TITYZBNS0ie81ZauTA3kbq2tJ9PVynNyhgD0heP91NFfqlFcZqabmRIxK0pmcevrtJ0yBsPfK00gtOf4BPC'
-   # STRIPE_SECRET_KEY = 'sk_test_51HCND6DvfKocuQ5TJjkQabT2yyc4PoY7lzFdSENHqHYHn12Bc00vwy8JAUdORBBLqCPuLclKixBBKLVerIQBWkkg00ZsfFvjIx'
-#else:
+    STRIPE_PUBLISHABLE_KEY = 'pk_test_51HCND6DvfKocuQ5TITYZBNS0ie81ZauTA3kbq2tJ9PVynNyhgD0heP91NFfqlFcZqabmRIxK0pmcevrtJ0yBsPfK00gtOf4BPC'
+    STRIPE_SECRET_KEY = 'sk_test_51HCND6DvfKocuQ5TJjkQabT2yyc4PoY7lzFdSENHqHYHn12Bc00vwy8JAUdORBBLqCPuLclKixBBKLVerIQBWkkg00ZsfFvjIx'
+else:
     #LIVE KEYS
-     #STRIPE_PUBLISHABLE_KEY ='pk_live_51HCND6DvfKocuQ5TS7Q8c9YmGlpjsboyxw91LKRxcK7dyIGVVMT54aCZbHeqzrzaDzqYoESyhRNnJLxWa2qmYGJF00lbJwyIob'
-    #STRIPE_SECRET_KEY='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'
+    STRIPE_PUBLISHABLE_KEY ='pk_live_51HCND6DvfKocuQ5TS7Q8c9YmGlpjsboyxw91LKRxcK7dyIGVVMT54aCZbHeqzrzaDzqYoESyhRNnJLxWa2qmYGJF00lbJwyIob'
+    STRIPE_SECRET_KEY='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'
 
  
  ###for signup prob###
@@ -185,3 +185,7 @@ django_heroku.settings(locals())
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+
+
