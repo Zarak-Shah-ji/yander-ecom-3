@@ -69,7 +69,7 @@ USE_TZ = True
 
 #changes from github sol
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 #Static files(CSS,Js,Images)
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')  #static
