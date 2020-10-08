@@ -6,7 +6,7 @@ import django_heroku
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
 DEBUG = True
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(file))) #__file__
 SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
 ALLOWED_HOSTS = ['127.0.0.1','localhost','yander-3.herokuapp.com','yander.herokuapp.com']
 #SECRET_KEY = config('SECRET_KEY')
@@ -67,12 +67,22 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+#changes from github sol
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 #Static files(CSS,Js,Images)
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')  #static
+STATIC_TMP = os.path.join(BASE_DIR, 'static')
 STATIC_URL = "/static/"
+
+#github 
+os.makedirs(STATIC_TMP, exist_ok=True)
+os.makedirs(STATIC_ROOT, exist_ok=True)
+
+
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'staticfiles'),
+    os.path.join(BASE_DIR, 'static'),
 )  #static_files
 #STATIC_ROOT = os.path.join(BASE_DIR,'static')
 MEDIA_URL = '/media/'
@@ -185,6 +195,5 @@ django_heroku.settings(locals())
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 #WHITENOISE_ROOT = os.path.join(BASE_DIR, 'staticfiles', 'root') 
