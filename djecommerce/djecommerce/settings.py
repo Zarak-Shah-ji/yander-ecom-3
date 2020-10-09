@@ -1,7 +1,7 @@
 import os
 from decouple import config
 
-import django_heroku
+#import django_heroku
 
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
@@ -31,7 +31,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -69,10 +69,10 @@ USE_TZ = True
 
 #changes from github sol
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 #Static files(CSS,Js,Images)
-STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')  #static
+STATIC_ROOT = os.path.join(BASE_DIR,"live-static","static-root")  #staticfiles
 STATIC_TMP = os.path.join(BASE_DIR, 'static')
 STATIC_URL = "/static/"
 
@@ -86,7 +86,7 @@ STATICFILES_DIRS = (
 )  #static_files
 #STATIC_ROOT = os.path.join(BASE_DIR,'static')
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR,"live-static", "media-root")
 
 DATABASES = {
     "default": {
@@ -189,7 +189,7 @@ EMAIL_USE_TLS =True
 ####################################################################################################################
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
 
-django_heroku.settings(locals())
+#django_heroku.settings(locals())
 
 
 # Simplified static file serving.
@@ -198,13 +198,3 @@ django_heroku.settings(locals())
 
 #WHITENOISE_ROOT = os.path.join(BASE_DIR, 'staticfiles', 'root') 
 
-from django.contrib.staticfiles import storage
-import functools
-
-original_hashed_name = storage.HashedFilesMixin.hashed_name
-
-@functools.wraps(original_hashed_name)
-def hashed_name(self, name, *args, **kwargs):
-    return original_hashed_name(self, name.strip('"'), *args, **kwargs)
-
-storage.HashedFilesMixin.hashed_name = hashed_name
