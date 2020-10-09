@@ -197,3 +197,14 @@ django_heroku.settings(locals())
 
 
 #WHITENOISE_ROOT = os.path.join(BASE_DIR, 'staticfiles', 'root') 
+
+from django.contrib.staticfiles import storage
+import functools
+
+original_hashed_name = storage.HashedFilesMixin.hashed_name
+
+@functools.wraps(original_hashed_name)
+def hashed_name(self, name, *args, **kwargs):
+    return original_hashed_name(self, name.strip('"'), *args, **kwargs)
+
+storage.HashedFilesMixin.hashed_name = hashed_name
