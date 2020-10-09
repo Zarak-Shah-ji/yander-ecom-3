@@ -1,7 +1,7 @@
 import os
 from decouple import config
 
-#import django_heroku
+import django_heroku
 
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
@@ -31,7 +31,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    #'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -189,7 +189,7 @@ EMAIL_USE_TLS =True
 ####################################################################################################################
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
 
-#django_heroku.settings(locals())
+django_heroku.settings(locals())
 
 
 # Simplified static file serving.
