@@ -31,4 +31,4 @@ stripe==2.49.0
 urllib3==1.25.10
 virtualenv==20.0.33
 virtualenv-clone==0.5.4
-whitenoise==5.2.0
+
