@@ -8,7 +8,7 @@ ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 DEBUG = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) #__file__
 SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
-ALLOWED_HOSTS = ['127.0.0.1','localhost','yander-3.herokuapp.com','yander.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1','localhost','yander-3.herokuapp.com','yander.herokuapp.com','*']
 #SECRET_KEY = config('SECRET_KEY')
 #SECRET_KEY=os.environ.get('SECRET_KEY')
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj')
@@ -31,7 +31,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    #'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -198,3 +198,5 @@ django_heroku.settings(locals())
 
 #WHITENOISE_ROOT = os.path.join(BASE_DIR, 'staticfiles', 'root') 
 
+
+STATICFILES_STORAGE='whitenoise.django.GzipManifestStaticFilesStorage'
