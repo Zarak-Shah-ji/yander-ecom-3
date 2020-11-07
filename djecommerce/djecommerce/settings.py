@@ -199,6 +199,6 @@ django_heroku.settings(locals())
 #WHITENOISE_ROOT = os.path.join(BASE_DIR, 'staticfiles', 'root') 
 
 
-STATICFILES_STORAGE='whitenoise.django.GzipManifestStaticFilesStorage'
-
+#STATICFILES_STORAGE='whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
 port = int(os.environ.get('PORT', 5000))
