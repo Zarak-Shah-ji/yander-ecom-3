@@ -3,6 +3,12 @@ from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 from .models import Review
 from django.forms import ModelForm
+from django.contrib.auth import get_user_model
+from django.contrib import messages
+
+
+from django.core.exceptions import ValidationError
+import re
 
 PAYMENT_CHOICES = (
     ('S','Stripe'),
@@ -73,12 +79,13 @@ class PaymentForm(forms.Form):
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from allauth.account.forms import SignupForm 
 
 # Sign Up Form
 class MyCustomSignupForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=False, help_text='')
-    last_name = forms.CharField(max_length=30, required=False, help_text='')
-    email = forms.EmailField(max_length=254, help_text='Enter a valid Email address')
+    first_name = forms.CharField(max_length=30, required=True, help_text='')
+    last_name = forms.CharField(max_length=30, required=True, help_text='')
+    email = forms.EmailField(max_length=54, help_text='Enter a valid Email address')
 
     class Meta:
         model = User
@@ -90,6 +97,30 @@ class MyCustomSignupForm(UserCreationForm):
             'password1', 
             'password2', 
             ]
+    def clean(self,*args,**kwargs):
+        email=self.cleaned_data.get('email')
+        first_name=self.cleaned_data.get('first_name')
+        last_name=self.cleaned_data.get('last_name')
+        #is_valid = validate_email(email,verify=True)
+        #print(is_valid)
+        email_qs=User.objects.filter(email=email)
+        if email_qs.exists():
+            raise forms.ValidationError("Email address is already registered")
+        
+        EMAIL_REGEX= re.compile(r"^[A-Za-z0-9_\.]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$")  
+           #^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$
+           #[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$
+        NAME_REGEX = re.compile(r"^[A-Za-z]*$")
+        if not NAME_REGEX.match(first_name):
+            raise forms.ValidationError("Please only use alphabets while writting your first name")
+        if not NAME_REGEX.match(last_name):
+            raise forms.ValidationError("Please only use alphabets while writting your last name")
+        try:
+            if not EMAIL_REGEX.match(email):
+                raise forms.ValidationError("Sorry,Invalid email addre")
+        except:
+            raise forms.ValidationError("Sorry,Invalid email address")
+        return super(MyCustomSignupForm,self).clean(*args,**kwargs)
 
 class ReviewForm(ModelForm):  ##error can be here####
     class Meta:

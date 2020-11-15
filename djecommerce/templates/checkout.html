@@ -52,14 +52,16 @@
               <div class="md-form mb-5 mt-5 checkout__form__input">
                 <label for="shipping_address" class=""><p>Address <span>*</span></p></label>
                <!--- <input type="text" id="address" class="form-control" placeholder="1234 Main St">-->
-               <input type="text" placeholder="90ft Main St." id="shipping_address" name="shipping_address" class="form-control"/>
+               <input type="text" placeholder="90ft Main St." id="shipping_address" name="shipping_address" class="form-control"
+               pattern="[A-Za-z0-9. ,-_]{1,50}"title="Only use alphabets,numbers,period,underscore and dash"/>
                
               </div>
 
               <!--address-2-->
               <div class="md-form mb-5 checkout__form__input">
                 <label for="shipping_address2" class=""><p>Address 2 (optional) <span></span></p></label>
-                <input type="text" placeholder="House no. #42" id="shipping_address2" name="shipping_address2" class="form-control"/>
+                <input type="text" placeholder="House no. #42" id="shipping_address2" name="shipping_address2" class="form-control"
+                pattern="[A-Za-z0-9. ,-_]{1,50}"title="Only use alphabets,numbers,period,underscore and dash"/>
               </div>
 
               <!--Grid row-->
@@ -104,7 +106,7 @@
                 <div class="col-lg-4 col-md-6 mb-4 checkout__form__input">
 
                   <label for="shipping_zip"><p>PIN Code <span>*</span></p></label>
-                 <input type="text" placeholder="e.g. 201301" id="shipping_zip" name="shipping_zip" class="form-control"/>
+                  <input type="number" maxlength="6"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="e.g. 201301" id="shipping_zip" name="shipping_zip" class="form-control"/>
                   <div class="invalid-feedback">
                     Zip code required.
                   </div>
@@ -146,14 +148,16 @@
                <div class ='hideable_billing_form'>
               <div class="md-form mt-5 mb-5 checkout__form__input">
                 <label for="billing_address" class=""><p>Address <span>*</span></p></label>
-               <input type="text" placeholder="90ft Main St." id="billing_address" name="billing_address" class="form-control"/>
+               <input type="text" placeholder="90ft Main St." id="billing_address" name="billing_address" class="form-control"
+               pattern="[A-Za-z0-9. ,-_]{1,50}" title="Only use alphabets,numbers,period,underscore,dash and spaces"/>
                 
               </div>
 
               <!--address-2-->
               <div class="md-form mb-5 checkout__form__input">
                 <label for="billing_address-2" class=""><p>Address 2 (optional) <span></span></p></label>
-              <input type="text" placeholder="House no. #42" id="billing_address2" name="billing_address2" class="form-control"/>
+              <input type="text" placeholder="House no. #42" id="billing_address2" name="billing_address2" class="form-control"
+              pattern="[A-Za-z0-9. ,-_]{1,50}" title="Only use alphabets,numbers,period,underscore,dash and spaces"/>
               </div>
 
               <!--Grid row-->
@@ -181,7 +185,7 @@
                 <div class="col-lg-4 col-md-6 mb-4 checkout__form__input">
 
                   <label for="billing_zip"><p>PIN Code <span>*</span></p></label>
-                  <input type="text" placeholder="e.g. 201301" id="billing_zip" name="billing_zip" class="form-control"/>
+                  <input type="number" maxlength="6"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="e.g. 201301" id="billing_zip" name="billing_zip" class="form-control"/>
                   <div class="invalid-feedback">
                     Zip code required.
                   </div>

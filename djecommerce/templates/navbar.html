@@ -11,7 +11,7 @@
 <div class="offcanvas-menu-wrapper">
   <div class="offcanvas__close">+</div>
   <ul class="offcanvas__widget" style="margin-right: 23px; text-align: left;">
-    <!-- <li><span class="icon_search search-switch    "></span></li> -->
+     <li><span class="icon_search search-switch"></span></li> 
     {% if request.user.is_authenticated %}
     <div class="header__right__auth mr-4 pr-2">
       <a ><strong>{{ request.user }}</strong></a>
@@ -19,7 +19,7 @@
     <li>
       <a href="{% url 'core:wishlist-summary' %}"
         ><span class="icon_heart_alt"></span>
-        <!-- <div class="tip"><span></span></div> -->
+        <!-- <div class="tip"><span></span></div>-->
       </a>
     </li>
     <li>
