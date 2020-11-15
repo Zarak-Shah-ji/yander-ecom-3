@@ -202,7 +202,7 @@ class Payment(models.Model):
     stripe_charge_id = models.CharField(max_length=50)
     #if the user is deleted we dont want the payment to be deleted as we want to keep track of every payment
     #thus we keep the user field on_delete as null
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.SET_NULL, blank=True ,null =True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, blank=False ,null =False)
     amount = models.FloatField()
     timestamp = models.DateTimeField(auto_now_add=True)
 

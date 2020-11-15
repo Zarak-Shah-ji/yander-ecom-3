@@ -67,7 +67,7 @@ class RefundForm(forms.Form):
         'row':3
 
     }))
-    email =forms.EmailField()
+    email =forms.CharField()
 
 class PaymentForm(forms.Form):
     stripeToken = forms.CharField(required=False)
