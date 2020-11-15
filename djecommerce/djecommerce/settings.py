@@ -8,7 +8,7 @@ ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 DEBUG = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) #__file__
 SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
-ALLOWED_HOSTS = ['127.0.0.1','localhost','yander-3.herokuapp.com','yander.herokuapp.com','*']
+ALLOWED_HOSTS = ['127.0.0.1:8000','localhost','yander-3.herokuapp.com','yander.herokuapp.com','*']
 #SECRET_KEY = config('SECRET_KEY')
 #SECRET_KEY=os.environ.get('SECRET_KEY')
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj')
@@ -68,7 +68,7 @@ USE_L10N = True
 USE_TZ = True
 
 #changes from github sol
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 #Static files(CSS,Js,Images)
@@ -95,19 +95,9 @@ DATABASES = {
     }
 }
 
-if ENVIRONMENT == 'production':
-    DEBUG = False
-    SECRET_KEY = os.getenv('SECRET_KEY')
-    SESSION_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_REDIRECT_EXEMPT = []
-    SECURE_SSL_REDIRECT = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-SESSION_COOKIE_SECURE = True
+
+SESSION_COOKIE_SECURE = True  #if this is turned on then login will not happen on development server
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
@@ -147,6 +137,11 @@ else:
  ###for signup prob###
 
 ACCOUNT_FORMS = {'signup': 'core.forms.MyCustomSignupForm'}
+
+
+ACCOUNT_EMAIL_REQUIRED =True
+ACCOUNT_EMAIL_VERIFICATION="mandatory"
+
 
 
 

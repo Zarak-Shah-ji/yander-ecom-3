@@ -1,0 +1,19 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="text-center mt-5">
+  <img
+    src="{% static 'core/img/confirmed.gif' %}"
+    alt=""
+    style="width: 150px"
+  />
+</div>
+<div class="text-center mt-5 mb-2">Your Order has been sucessfully placed.</div>
+<div class="text-center">Order ID: <b>{{ order_id }}</b></div>
+<div class="text-center mt-4 mb-2">
+  An Email with your Order confirmation has been sent to your registered Email
+  ID.
+</div>
+<div class="text-center mt-4 mb-2">
+  Thank You for shopping with Yander, Your Order will be delivered soon!
+</div>
+
+{% endblock %}

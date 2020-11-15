@@ -25,6 +25,13 @@ from django.template.loader import get_template
 from django.core.mail import mail_admins
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.http import HttpRequest
+from django.contrib.auth.models import User
+
+# from django.core.mail import EmailMultiAlternatives
+from django.core import mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 
 # Create your views here.
@@ -38,7 +45,7 @@ stripe.api_key = 'sk_test_51HCND6DvfKocuQ5TJjkQabT2yyc4PoY7lzFdSENHqHYHn12Bc00vw
 def create_ref_code():
     #it would create a random seq of characters 
     #k =  special argument for length of string
-    return ''.join(random.choices(string.ascii_lowercase + string.digits,k = 20))
+    return ''.join(random.choices(string.digits,k = 20))
 
 
 class HomeView(ListView):
@@ -139,7 +146,7 @@ class CheckoutView(View):
             return redirect("/")
         
 
-    def post(self,*args,**kwargs):
+    def post(self,request,*args,**kwargs):
         form = CheckoutForm(self.request.POST or None)
         try:
             order = Order.objects.get(user=self.request.user,ordered=False)
@@ -302,12 +309,37 @@ class CheckoutView(View):
                     order.ref_code =create_ref_code()
                     order.being_delivered=True
                     order.save()
-                    messages.success(self.request,"Your order has been successfully placed, keep your Cash ready at the time of delivery")
-                    msg = EmailMessage('Thanks for Shopping with us','Your Order Is Confirmed.', 'yander.helpdesk@gmail.com', to=[self.request.user.email])
-                    msg.send()
-                    admin_msg = EmailMessage('New Order','We have a new order, check Admin.', 'yander.helpdesk@gmail.com', to=['zarak.shahjee1@gmail.com','jahanzaibmlk321@gmail.com'])
-                    admin_msg.send()
-                    return redirect("/",payment_option='Cash-On-Delivery')
+
+                      # --------------------------------------------------------------------------------
+                    subject = 'Your Order is Confirmed'
+                    html_message = render_to_string('Order-Confirmation-Email-Template.html', {'order_id':  order.ref_code,
+                    'total_amount': payment.amount, 'user_name': payment.user })
+                    plain_message = strip_tags(html_message)
+                    from_email = 'Yander <yander.helpdesk@gmail.com>'
+                    to = self.request.user.email
+
+                    mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+                    # --------------------------------------------------------------------------------
+                    
+                     # --------------------------------------------------------------------------------
+                    subject_admin_msg = 'New Order On Yander'
+                    html_message_admin_msg = render_to_string('Order_admin_msg.html', {'order_id':  order.ref_code,
+                    'total_amount': payment.amount, 'user_name': payment.user })
+                    plain_message_admin_msg = strip_tags(html_message)
+                    from_email_admin_msg = 'Yander <yander.helpdesk@gmail.com>'
+                    # to_admin_msg = ['zarak.shahjee1@gmail.com','jahanzaibmlk321@gmail.com']
+
+                    mail.send_mail(subject_admin_msg, plain_message_admin_msg, from_email_admin_msg, ['zarak.shahjee1@gmail.com','jahanzaibmlk321@gmail.com'], html_message=html_message_admin_msg)
+                    # --------------------------------------------------------------------------------
+                    return render(request, 'order-confirmed.html', {'order_id' :  order.ref_code })
+
+
+                 #messages.success(self.request,"Your order has been successfully placed, keep your Cash ready at the time of delivery")
+                  #  msg = EmailMessage('Thanks for Shopping with us','Your Order Is Confirmed.', 'yander.helpdesk@gmail.com', to=[self.request.user.email])
+                   # msg.send()
+                    # admin_msg = EmailMessage('New Order','We have a new order, check Admin.', 'yander.helpdesk@gmail.com', to=['zarak.shahjee1@gmail.com','jahanzaibmlk321@gmail.com'])
+                   # admin_msg.send()
+                   # return redirect("/",payment_option='Cash-On-Delivery')
                     
 
                 elif payment_option == 'D':
@@ -361,7 +393,7 @@ class PaymentView(View):
             return redirect("core:checkout")
             
 
-    def post(self, *args,**kwargs):
+    def post(self,request, *args,**kwargs):
         #we get the order so that we can get the total amount for the order done below in our amount variable
         order = Order.objects.get(user=self.request.user,ordered=False)
         form = PaymentForm(self.request.POST)
@@ -471,12 +503,34 @@ class PaymentView(View):
                         
         except stripe.error.InvalidRequestError as e:
             # Invalid parameters were supplied to Stripe's API
-            messages.success(self.request,"Your order has been successfully placed, be ready for delivery soon")
-            msg = EmailMessage('Thanks for Shopping with us','Your Order Is Confirmed.', 'yander.helpdesk@gmail.com', to=[self.request.user.email])
-            msg.send()
-            admin_msg = EmailMessage('New Order','We have a new order, check Admin.', 'yander.helpdesk@gmail.com', to=['jahanzaibmlk321@gmail.com'])
-            admin_msg.send()
-            return redirect("/")
+           # messages.success(self.request,"Your order has been successfully placed, be ready for delivery soon")
+           # msg = EmailMessage('Thanks for Shopping with us','Your Order Is Confirmed.', 'yander.helpdesk@gmail.com', to=[self.request.user.email])
+           # msg.send()
+           # admin_msg = EmailMessage('New Order','We have a new order, check Admin.', 'yander.helpdesk@gmail.com', to=['jahanzaibmlk321@gmail.com'])
+           # admin_msg.send()
+           # return redirect("/")
+
+            subject = 'Your Order is Confirmed'
+            html_message = render_to_string('Order-Confirmation-Email-Template.html', {'order_id':  order.ref_code,
+            'total_amount': payment.amount, 'user_name': payment.user })
+            plain_message = strip_tags(html_message)
+            from_email = 'Yander <yander.helpdesk@gmail.com>'
+            to = self.request.user.email
+
+            mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+            # --------------------------------------------------------------------------------
+                     
+            # --------------------------------------------------------------------------------
+            subject_admin_msg = 'New Order On Yander'
+            html_message_admin_msg = render_to_string('Order_admin_msg.html', {'order_id':  order.ref_code,
+            'total_amount': payment.amount, 'user_name': payment.user })
+            plain_message_admin_msg = strip_tags(html_message)
+            from_email_admin_msg = 'Yander <yander.helpdesk@gmail.com>'
+            # to_admin_msg = 'zarak.shahjee1@gmail.com','jahanzaibmlk321@gmail.com'
+
+            mail.send_mail(subject_admin_msg, plain_message_admin_msg, from_email_admin_msg, ['zarak.shahjee1@gmail.com','jahanzaibmlk321@gmail.com'], html_message=html_message_admin_msg)
+            # --------------------------------------------------------------------------------
+            return render(request, 'order-confirmed.html', {'order_id' :  order.ref_code })
 
         except stripe.error.AuthenticationError as e:
         # Authentication with Stripe's API failed
