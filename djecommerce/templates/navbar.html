@@ -105,10 +105,11 @@
       </div>
       <div class="col-lg-3">
         <div class="header__right">
-          {% if request.user.is_authenticated %}
+         
          
           <ul class="header__right__widget">
-            <!-- <li><span class="icon_search search-switch"></span></li> -->
+            <li><span class="icon_search search-switch"></span></li>
+            {% if request.user.is_authenticated %}
             <li>
               <a href="{% url 'core:wishlist-summary' %}"
                 ><span class="icon_heart_alt"></span>

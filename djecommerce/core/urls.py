@@ -18,7 +18,8 @@ remove_from_wishlist,
 WishlistSummaryView,
 ShopAllView,
 ShopView,
-addcomment
+addcomment,
+SearchResults
 )
 from django.views.generic import TemplateView
 
@@ -56,6 +57,7 @@ urlpatterns = [
     path('shop/foods/tea/',ShopView.as_view(), name='tea'),
     path('shop/foods/dryfruits/',ShopView.as_view(), name='dryfruits'),
     path('addcomment/<int:id>',addcomment, name='addcomment'),
+    path('search-results/',SearchResults, name='search-results'),
    
     
 ]

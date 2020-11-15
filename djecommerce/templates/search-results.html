@@ -1,0 +1,130 @@
+{% extends "base.html" %} {% block content %}
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------->
+<style>
+  .rating {
+    float:left;
+    width:300px;
+}
+.rating span { float:right; position:relative; }
+.rating span input {
+    position:absolute;
+    top:0px;
+    left:0px;
+    opacity:0;
+}
+.rating span label {
+    display:inline-block;
+    width:30px;
+    height:30px;
+    text-align:center;
+    color:#FFF;
+    background:#ccc;
+    font-size:30px;
+    margin-right:2px;
+    line-height:30px;
+    border-radius:50%;
+    -webkit-border-radius:50%;
+}
+.rating span:hover ~ span label,
+.rating span:hover label,
+.rating span.checked label,
+.rating span.checked ~ span label {
+    background:#F90;
+    color:#FFF;
+}
+</style>
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb__links">
+          <a href="{% url 'core:home' %}"><i class="fa fa-home"></i> Home</a>
+			<span>Search</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Heading -->
+		
+			<h2 class="my-5 h2 text-center"><b>Search Results</b></h2>
+		
+
+<!-- Shop Section Begin -->
+{% if post %}
+<h5 class="my-5 h6 text-center">Showing search results for " <b>{{ search }}</b> "</h5>
+<section class="shop spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="row">
+		
+          {% for item in post %}
+         
+          <div class="col-lg-3 col-md-4 col-sm-6 mix women">
+            <div class="product__item">
+              <div
+                class="product__item__pic set-bg"
+                data-setbg="{{ item.image.url }}"
+				data-link="{{ item.get_absolute_url }}"
+              >
+                <div class="label new">New</div>
+                <ul class="product__hover">
+                  <li>
+                    <a href="{{ item.image.url }}" class="image-popup"
+                      ><span class="arrow_expand"></span
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="{{ item.get_add_to_wishlist_url }}"
+                      ><span class="icon_heart_alt"></span
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="{{item.get_add_to_cart_url }}"
+                      ><span class="icon_bag_alt"></span
+                    ></a>
+                  </li>
+                </ul>
+              </div>
+              <div class="product__item__text">
+                <h6>
+                  <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                </h6>
+                <div class="rating">
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                {% if item.discount_price %}
+                <div class="product__price">
+                  <span>&#x20B9;{{ item.price }} </span>
+                  &#x20B9;{{ item.discount_price }}
+                </div>
+                {% else %}
+                <div class="product__price">
+                  &#x20B9;{{ item.price }}
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% else %}
+<div class="text-center">
+<h4>No Items match your Search</h4>
+</div>
+{% endif %}
+
+<!-- Shop Section End -->
+{% endblock content %}

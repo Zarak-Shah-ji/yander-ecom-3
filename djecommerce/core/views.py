@@ -894,6 +894,11 @@ def addcomment(request,id):
     
 
 
+def SearchResults(request):
+    if request.method == "GET":
+        search = request.GET.get("search")
+        post = Item.objects.all().filter(title__contains=search)
+        return render(request, 'search-results.html', {'post' : post, 'search' : search})
 
     
 
