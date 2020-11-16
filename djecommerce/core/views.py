@@ -356,7 +356,7 @@ class CheckoutView(View):
 
 class PaymentView(View):
     def get(self, *args,**kwargs):
-        order = Order.objects.get(user=self.request.user,ordered=False)
+        order = Order.objects.get(user=self.request.user,ordered=False)  #change for admin error
         #restricting to go to payment pg without a billing address
         if order.billing_address:
             context = {
